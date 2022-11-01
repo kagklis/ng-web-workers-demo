@@ -1,0 +1,13 @@
+<div class="container mt-4">
+   <ul class="nav nav-pills">
+      <li class="nav-item">
+         <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="'active'">Home</a>
+      </li>
+      <li class="nav-item">
+         <a class="nav-link" [routerLink]="['/calculation']" [routerLinkActive]="'active'">Calculation</a>
+      </li>
+   </ul>
+   <div class="mt-4">
+      <router-outlet></router-outlet>
+   </div>
+</div>
