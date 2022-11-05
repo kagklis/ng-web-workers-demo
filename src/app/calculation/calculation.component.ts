@@ -5,12 +5,16 @@ import { calculate } from './calculation';
   templateUrl: './calculation.component.html',
   styleUrls: ['./calculation.component.scss'],
 })
-export class CalculationComponent {
+export class CalculationComponent implements OnDestroy {
   public value!: number;
   public result!: string | null;
   public isCalculating: boolean = false;
 
   private currentWorker!: Worker;
+
+  ngOnDestroy(): void {
+    this.terminateRunningWorker();
+  }
 
   public modelChange(newValue: number): void {
     const start = performance.now();
