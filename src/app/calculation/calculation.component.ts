@@ -31,11 +31,11 @@ export class CalculationComponent {
       new URL('./calculation.worker', import.meta.url)
     );
     this.isCalculating = true;
-    this.currentWorker.postMessage({ value });
     this.currentWorker.onmessage = ({ data }) => {
       this.result = data.result;
       this.isCalculating = false;
     };
+    this.currentWorker.postMessage({ value });
   }
 
   private terminateRunningWorker(): void {
