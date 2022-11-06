@@ -17,17 +17,25 @@ export class CalculationComponent implements OnDestroy {
   }
 
   public modelChange(newValue: number): void {
-    const start = performance.now();
     this.value = newValue;
     this.result = null;
+    if (newValue <= 0) {
+      this.terminateRunningWorker();
+      return;
+    }
+    const start = performance.now();
+    this.runCalculation();
+    console.log(`Blocked UI for ${performance.now() - start} ms`);
+  }
+
+  private runCalculation(): void {
     if (typeof Worker !== undefined) {
       this.terminateRunningWorker();
-      this.invokeNewWorker(newValue);
+      this.invokeNewWorker(this.value);
     } else {
       console.error('Web workers not supported! Calling on main thread...');
-      this.result = calculate(newValue);
+      this.result = calculate(this.value);
     }
-    console.log(`Blocked UI for ${performance.now() - start} ms`);
   }
 
   private invokeNewWorker(value: number): void {

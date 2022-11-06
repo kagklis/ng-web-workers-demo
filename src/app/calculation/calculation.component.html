@@ -1,16 +1,17 @@
 <div class="col-6 ms-3">
-   <input
-      class="form-control"
-      placeholder="Type a number"
-      type="number"
-      [ngModel]="value"
-      (ngModelChange)="modelChange($event)"
-   />
-   <small class="text-muted ms-2">
-      The larger the value, the greater the delay!
-   </small>
-   <small *ngIf="isCalculating" class="text-success ms-1">Calculating...</small>
-   <div *ngIf="result != null" class="alert alert-info mt-2" role="alert">
-      {{ result }}...
-   </div>
+  <input
+    class="form-control"
+    placeholder="Type a number"
+    type="number"
+    [ngModel]="value"
+    (ngModelChange)="modelChange($event)"
+  />
+  <p class="text-muted ms-2">The larger the value, the greater the delay</p>
+  <p *ngIf="value != null && value <= 0" class="text-danger ms-2">
+    <small>Value should be a positive number!</small>
+  </p>
+  <p *ngIf="isCalculating" class="text-success ms-2">Calculating...</p>
+  <div *ngIf="result != null" class="alert alert-info mt-2" role="alert">
+    {{ result }}...
+  </div>
 </div>
