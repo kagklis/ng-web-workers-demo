@@ -1,0 +1,31 @@
+<div>
+  <div class="col-6 ms-3">
+     <input
+        type="range"
+        class="form-range"
+        min="500"
+        max="50000"
+        step="500"
+        [ngModel]="dataLength"
+        (ngModelChange)="modelChange($event)"
+     />
+     <small class="text-muted ms-2">
+        The larger the value, the greater the delay!
+     </small>
+  </div>
+  <div class="chart-container">
+     <div *ngIf="isLoading" class="d-flex justify-content-center loader">
+        <div class="spinner-border text-primary" role="status">
+           <span class="visually-hidden">Loading...</span>
+        </div>
+     </div>
+     <div
+        *ngIf="!chart"
+        #chartCanvas
+        id="chartCanvas"
+        class="chart-canvas"
+        [ngClass]="{ hidden: isLoading }"
+     ></div>
+     <canvas id="myChart" [ngClass]="{ hidden: isLoading }"> {{ chart }} </canvas>
+  </div>
+</div>
