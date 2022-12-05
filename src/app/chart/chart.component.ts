@@ -103,7 +103,21 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
 
    private createCanvas() {
       const currentCanvas = document.createElement('canvas');
-      document.getElementById('chartCanvas')?.append(currentCanvas);
+      const chartCanvas = document.getElementById('chartCanvas');
+      chartCanvas?.append(currentCanvas);
+      chartCanvas?.addEventListener('mousemove', (e: MouseEvent) =>
+         this.currentWorker.postMessage({
+            type: 'mousemove',
+            x: e.offsetX,
+            y: e.offsetY,
+         })
+      );
+      chartCanvas?.addEventListener('mouseenter', () => {
+         this.currentWorker.postMessage({ type: 'mouseenter' });
+      });
+      chartCanvas?.addEventListener('mouseleave', () => {
+         this.currentWorker.postMessage({ type: 'mouseleave' });
+      });
       return (currentCanvas as any).transferControlToOffscreen();
    }
 
@@ -116,14 +130,11 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
    }
 
    private registerResizeEvents(): void {
-      const worker = this.currentWorker;
-      function windowResize(): void {
-         worker.postMessage({
+      window.addEventListener('resize', () => {
+         this.currentWorker.postMessage({
             type: 'resize',
-            width: (3 * window.innerWidth) / 4,
-            height: (3 * window.innerHeight) / 4,
+            ...this.size,
          });
-      }
-      window.addEventListener('resize', windowResize);
+      });
    }
 }
